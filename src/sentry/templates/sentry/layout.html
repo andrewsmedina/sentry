@@ -1,6 +1,7 @@
 {% load compress %}
 {% load i18n %}
 {% load sentry_helpers %}
+{% load static_compiler %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,13 +12,7 @@
         <link href="{% url sentry-media "sentry" "images/favicon.png" %}" rel="shortcut icon" type="image/png"/>
 
         {% block css %}
-            {% if COMPRESS_LESS %}
-                {% compress css %}
-                    <link href="{% url sentry-media "sentry" "less/sentry.less" %}" rel="stylesheet" type="text/less"/>
-                {% endcompress %}
-            {% else %}
-                <link href="{% url sentry-media "sentry" "styles/sentry.css" %}" rel="stylesheet" type="text/css"/>
-            {% endif %}
+        {% staticbundle 'sentry/styles/global.min.css' %}
         {% endblock %}
 
         <title>{% block title %}Sentry{% endblock %}</title>
@@ -38,16 +33,7 @@
                 <script type="text/javascript" src="{% url sentry-media "sentry" "scripts/lib/select2/select2.js" %}"></script>
                 <script type="text/javascript" src="{% url sentry-media "sentry" "scripts/lib/bootstrap.js" %}"></script>
             {% endcompress %}
-            {% compress js %}
-                <script type="text/javascript" src="{% url sentry-media "sentry" "scripts/core.js" %}"></script>
-                <script type="text/javascript" src="{% url sentry-media "sentry" "scripts/models.js" %}"></script>
-                <script type="text/javascript" src="{% url sentry-media "sentry" "scripts/templates.js" %}"></script>
-                <script type="text/javascript" src="{% url sentry-media "sentry" "scripts/utils.js" %}"></script>
-                <script type="text/javascript" src="{% url sentry-media "sentry" "scripts/collections.js" %}"></script>
-                <script type="text/javascript" src="{% url sentry-media "sentry" "scripts/charts.js" %}"></script>
-                <script type="text/javascript" src="{% url sentry-media "sentry" "scripts/views.js" %}"></script>
-                <script type="text/javascript" src="{% url sentry-media "sentry" "scripts/app.js" %}"></script>
-            {% endcompress %}
+            {% staticbundle 'sentry/scripts/global.min.js' %}
             {% comment %}
                 The sentry.* javascript is deprecated.
             {% endcomment %}

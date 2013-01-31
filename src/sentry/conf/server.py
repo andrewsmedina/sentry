@@ -156,6 +156,7 @@ INSTALLED_APPS = (
     'sentry.plugins.sentry_useragents',
     'social_auth',
     'south',
+    'static_compiler',
     'django_social_auth_trello',
 )
 
@@ -309,6 +310,35 @@ LOGGING = {
         },
     }
 }
+
+STATIC_BUNDLES = {
+    "packages": {
+        "sentry/scripts/global.min.js": {
+            "src": [
+                "sentry/scripts/core.js",
+                "sentry/scripts/models.js",
+                "sentry/scripts/templates.js",
+                "sentry/scripts/utils.js",
+                "sentry/scripts/collections.js",
+                "sentry/scripts/charts.js",
+                "sentry/scripts/views.js",
+                "sentry/scripts/app.js",
+            ],
+        },
+        "sentry/styles/global.min.css": {
+            "src": {
+                "sentry/less/sentry.less": "sentry/styles/sentry.css",
+            },
+        },
+    },
+    "postcompilers": {
+        "*.js": ["node_modules/uglify-js/bin/uglifyjs {input} --source-map-url={name}.map{ext} --source-map={relpath}/{name}.map{ext}"],
+    },
+    "preprocessors": {
+        "*.less": ["node_modules/less/bin/lessc {input}"],
+    },
+}
+
 
 # Configure celery
 import djcelery
